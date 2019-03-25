@@ -1,6 +1,5 @@
 package net.ewant.pager;
 
-import com.github.pagehelper.PageHelper;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -41,6 +40,9 @@ public class MybatisPagerImpl<T> extends SqlSessionDaoSupport implements Mybatis
 	 * @return
 	 */
 	private String getNameSpace(Class type, String sqlId) {
+		if(sqlId.contains(".")){
+			return sqlId;
+		}
         String prefix = sqlIdPrefix();
         if(prefix == null){
             prefix = type.getName() + "Mapper";

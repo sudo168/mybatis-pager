@@ -6,3 +6,4 @@
 pagehelper:
   offsetAsPageNum: true
   rowBoundsWithCount: true
+  autoRuntimeDialect: true

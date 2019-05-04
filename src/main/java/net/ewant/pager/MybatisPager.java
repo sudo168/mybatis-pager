@@ -7,6 +7,8 @@ public interface MybatisPager<T> {
 	String DEFAULT_QUERY_LIST_ID = "selectList";
 	String DEFAULT_QUERY_PAGE_ID = "selectPage";
 
+	<E> E select(String sqlId, Object parameter, Class<E> type);
+
 	/**
 	 * 列表查询，所有符合条件的数据
 	 * @param parameter
@@ -70,5 +72,13 @@ public interface MybatisPager<T> {
 	 * sqlId 前缀，默认使用泛型T的class全名做前缀
 	 * @return null时使用默认前缀
 	 */
-	String sqlIdPrefix();
+	String sqlIdPrefix(Class type);
+
+	/**
+	 * sqlIdPrefix返回null时，默认使用泛型T的class全名做前缀
+	 * 此处返回false，则将泛型T的包名.entity 改为 .dao
+	 * 当然，还可以在sqlIdPrefix方法中做处理
+	 * @return
+	 */
+	boolean typeAsSqlIdPrefix();
 }

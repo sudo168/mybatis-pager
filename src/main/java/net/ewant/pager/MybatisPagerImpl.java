@@ -43,13 +43,25 @@ public class MybatisPagerImpl<T> extends SqlSessionDaoSupport implements Mybatis
 		if(sqlId.contains(".")){
 			return sqlId;
 		}
-        String prefix = sqlIdPrefix();
+        String prefix = sqlIdPrefix(type);
         if(prefix == null){
-            prefix = type.getName() + "Mapper";
+			if(typeAsSqlIdPrefix()){
+				prefix = type.getName() + "Mapper";
+			}else{
+				prefix = type.getName().replaceAll(".entity", ".dao") + "Mapper";
+			}
 		}
 		return prefix + "." + sqlId;
 	}
-	
+
+	public <E> E select(String sqlId, Object parameter, Class<E> type) {
+		Object one = this.getSqlSession().selectOne(getNameSpace(type, sqlId), parameter);
+		if(one == null){
+			return  null;
+		}
+		return (E)one;
+	}
+
 	public List<T> selectList(Object parameter) {
 		return selectList(DEFAULT_QUERY_LIST_ID ,parameter);
 	}
@@ -89,7 +101,7 @@ public class MybatisPagerImpl<T> extends SqlSessionDaoSupport implements Mybatis
 	}
 	
 	public <E> Pager<E> selectPage(PageParams parameter, Class<E> type) {
-		return selectPage(DEFAULT_QUERY_LIST_ID, parameter, type);
+		return selectPage(DEFAULT_QUERY_PAGE_ID, parameter, type);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -143,7 +155,11 @@ public class MybatisPagerImpl<T> extends SqlSessionDaoSupport implements Mybatis
 		return new Pager(list, navigatePages);
 	}
 
-	public String sqlIdPrefix() {
+	public String sqlIdPrefix(Class type) {
 		return null;
+	}
+
+	public boolean typeAsSqlIdPrefix() {
+		return true;
 	}
 }

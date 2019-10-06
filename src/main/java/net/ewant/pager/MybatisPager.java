@@ -78,7 +78,7 @@ public interface MybatisPager<T> {
 	 * sqlIdPrefix返回null时，默认使用泛型T的class全名做前缀
 	 * 此处返回false，则将泛型T的包名.entity 改为 .dao
 	 * 当然，还可以在sqlIdPrefix方法中做处理
-	 * @return
+	 * @return default false
 	 */
 	boolean typeAsSqlIdPrefix();
 }

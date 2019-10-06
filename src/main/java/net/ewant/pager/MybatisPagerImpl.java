@@ -160,6 +160,6 @@ public class MybatisPagerImpl<T> extends SqlSessionDaoSupport implements Mybatis
 	}
 
 	public boolean typeAsSqlIdPrefix() {
-		return true;
+		return false;
 	}
 }
